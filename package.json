@@ -1,0 +1,23 @@
+{
+  "name": "utm",
+  "version": "1.0.0",
+  "description": "Bidirectional UTM-WGS84 converter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timothygu/utm.git"
+  },
+  "keywords": [
+    "utm",
+    "latlon"
+  ],
+  "author": "Timothy Gu <timothygu99@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/timothygu/utm/issues"
+  },
+  "homepage": "https://github.com/timothygu/utm#readme"
+}
