@@ -39,24 +39,24 @@ module.exports.toLatLon = function (easting, northing, zoneNum, zoneLetter, nort
   zoneLetter = zoneLetter || ''
   northern = !!northern
   if (!zoneLetter && !northern) {
-    throw Error('either zone_letter or northern needs to be set')
+    throw new Error('either zoneLetter or northern needs to be set')
   } else if (zoneLetter && northern) {
-    throw Error('set either zone_letter or northern, but not both')
+    throw new Error('set either zoneLetter or northern, but not both')
   }
 
   if (easting < 100000 || 1000000 <= easting) {
-    throw RangeError('easting out of range (must be between 100.000 m and 999.999 m)')
+    throw new RangeError('easting out of range (must be between 100.000 m and 999.999 m)')
   }
   if (northing < 0 || northing > 10000000) {
-    throw RangeError('northing out of range (must be between 0 m and 10.000.000 m)')
+    throw new RangeError('northing out of range (must be between 0 m and 10.000.000 m)')
   }
   if (zoneNum < 1 || zoneNum > 60) {
-    throw RangeError('zone number out of range (must be between 1 and 60)')
+    throw new RangeError('zone number out of range (must be between 1 and 60)')
   }
   if (zoneLetter) {
     zoneLetter = zoneLetter.toUpperCase();
     if (!ZONE_LETTERS_CONVERSION[zoneLetter]) {
-      throw RangeError('zone letter out of range (must be between C and X)')
+      throw new RangeError('zone letter out of range (must be between C and X)')
     }
     northern = ZONE_LETTERS_CONVERSION[zoneLetter]
   }
@@ -69,28 +69,28 @@ module.exports.toLatLon = function (easting, northing, zoneNum, zoneLetter, nort
   var m = y / K0
   var mu = m / (R * M1)
 
-  var p_rad = mu +
-              P2 * Math.sin(2 * mu) +
-              P3 * Math.sin(4 * mu) +
-              P4 * Math.sin(6 * mu) +
-              P5 * Math.sin(8 * mu)
+  var pRad = mu +
+             P2 * Math.sin(2 * mu) +
+             P3 * Math.sin(4 * mu) +
+             P4 * Math.sin(6 * mu) +
+             P5 * Math.sin(8 * mu)
 
-  var p_sin = Math.sin(p_rad)
-  var p_sin2 = Math.pow(p_sin, 2)
+  var pSin = Math.sin(pRad)
+  var pSin2 = Math.pow(pSin, 2)
 
-  var p_cos = Math.cos(p_rad)
+  var pCos = Math.cos(pRad)
 
-  var p_tan = Math.tan(p_rad)
-  var p_tan2 = Math.pow(p_tan, 2)
-  var p_tan4 = Math.pow(p_tan, 4)
+  var pTan = Math.tan(pRad)
+  var pTan2 = Math.pow(pTan, 2)
+  var pTan4 = Math.pow(pTan, 4)
 
-  var ep_sin = 1 - E * p_sin2
-  var ep_sin_sqrt = Math.sqrt(ep_sin)
+  var epSin = 1 - E * pSin2
+  var epSinSqrt = Math.sqrt(epSin)
 
-  var n = R / ep_sin_sqrt
-  var r = (1 - E) / ep_sin
+  var n = R / epSinSqrt
+  var r = (1 - E) / epSin
 
-  var c = _E * p_cos * p_cos
+  var c = _E * pCos * pCos
   var c2 = c * c
 
   var d = x / (n * K0)
@@ -100,13 +100,13 @@ module.exports.toLatLon = function (easting, northing, zoneNum, zoneLetter, nort
   var d5 = Math.pow(d, 5)
   var d6 = Math.pow(d, 6)
 
-  var latitude = p_rad - (p_tan / r) *
+  var latitude = pRad - (pTan / r) *
                  (d2 / 2 -
-                  d4 / 24 * (5 + 3 * p_tan2 + 10 * c - 4 * c2 - 9 * E_P2)) +
-                  d6 / 720 * (61 + 90 * p_tan2 + 298 * c + 45 * p_tan4 - 252 * E_P2 - 3 * c2)
+                  d4 / 24 * (5 + 3 * pTan2 + 10 * c - 4 * c2 - 9 * E_P2)) +
+                  d6 / 720 * (61 + 90 * pTan2 + 298 * c + 45 * pTan4 - 252 * E_P2 - 3 * c2)
   var longitude = (d -
-                   d3 / 6 * (1 + 2 * p_tan2 + c) +
-                   d5 / 120 * (5 - 2 * c + 28 * p_tan2 - 3 * c2 + 8 * E_P2 + 24 * p_tan4)) / p_cos
+                   d3 / 6 * (1 + 2 * pTan2 + c) +
+                   d5 / 120 * (5 - 2 * c + 28 * pTan2 - 3 * c2 + 8 * E_P2 + 24 * pTan4)) / pCos
 
   return {
     latitude: toDegrees(latitude),
@@ -116,19 +116,19 @@ module.exports.toLatLon = function (easting, northing, zoneNum, zoneLetter, nort
 
 module.exports.fromLatLon = function (latitude, longitude, zoneNum) {
   if (latitude > 84 || latitude < -80) {
-    throw RangeError('latitude out of range (must be between 80 deg S and 84 deg N)')
+    throw new RangeError('latitude out of range (must be between 80 deg S and 84 deg N)')
   }
   if (longitude > 180 || longitude < -180) {
-    throw RangeError('longitude out of range (must be between 180 deg W and 180 deg E)')
+    throw new RangeError('longitude out of range (must be between 180 deg W and 180 deg E)')
   }
 
-  var lat_rad = toRadians(latitude)
-  var lat_sin = Math.sin(lat_rad)
-  var lat_cos = Math.cos(lat_rad)
+  var latRad = toRadians(latitude)
+  var latSin = Math.sin(latRad)
+  var latCos = Math.cos(latRad)
 
-  var lat_tan = Math.tan(lat_rad)
-  var lat_tan2 = Math.pow(lat_tan, 2)
-  var lat_tan4 = Math.pow(lat_tan, 4)
+  var latTan = Math.tan(latRad)
+  var latTan2 = Math.pow(latTan, 2)
+  var latTan4 = Math.pow(latTan, 4)
 
   if (zoneNum === undefined) {
     zoneNum = latLonToZoneNumber(latitude, longitude)
@@ -136,30 +136,30 @@ module.exports.fromLatLon = function (latitude, longitude, zoneNum) {
 
   var zoneLetter = latitudeToZoneLetter(latitude)
 
-  var lon_rad = toRadians(longitude)
-  var central_lon = zoneNumberToCentralLongitude(zoneNum)
-  var central_lon_rad = toRadians(central_lon)
+  var lonRad = toRadians(longitude)
+  var centralLon = zoneNumberToCentralLongitude(zoneNum)
+  var centralLonRad = toRadians(centralLon)
 
-  var n = R / Math.sqrt(1 - E * lat_sin * lat_sin)
-  var c = E_P2 * lat_cos * lat_cos
+  var n = R / Math.sqrt(1 - E * latSin * latSin)
+  var c = E_P2 * latCos * latCos
 
-  var a = lat_cos * (lon_rad - central_lon_rad)
+  var a = latCos * (lonRad - centralLonRad)
   var a2 = Math.pow(a, 2)
   var a3 = Math.pow(a, 3)
   var a4 = Math.pow(a, 4)
   var a5 = Math.pow(a, 5)
   var a6 = Math.pow(a, 6)
 
-  var m = R * (M1 * lat_rad -
-               M2 * Math.sin(2 * lat_rad) +
-               M3 * Math.sin(4 * lat_rad) -
-               M4 * Math.sin(6 * lat_rad))
+  var m = R * (M1 * latRad -
+               M2 * Math.sin(2 * latRad) +
+               M3 * Math.sin(4 * latRad) -
+               M4 * Math.sin(6 * latRad))
   var easting = K0 * n * (a +
-                          a3 / 6 * (1 - lat_tan2 + c) +
-                          a5 / 120 * (5 - 18 * lat_tan2 + lat_tan4 + 72 * c - 58 * E_P2)) + 500000
-  var northing = K0 * (m + n * lat_tan * (a2 / 2 +
-                                          a4 / 24 * (5 - lat_tan2 + 9 * c + 4 * c * c) +
-                                          a6 / 720 * (61 - 58 * lat_tan2 + lat_tan4 + 600 * c - 330 * E_P2)))
+                          a3 / 6 * (1 - latTan2 + c) +
+                          a5 / 120 * (5 - 18 * latTan2 + latTan4 + 72 * c - 58 * E_P2)) + 500000
+  var northing = K0 * (m + n * latTan * (a2 / 2 +
+                                         a4 / 24 * (5 - latTan2 + 9 * c + 4 * c * c) +
+                                         a6 / 720 * (61 - 58 * latTan2 + latTan4 + 600 * c - 330 * E_P2)))
   if (latitude < 0) northing += 1e7
 
   return { easting, northing, zoneNum, zoneLetter }
