@@ -57,8 +57,8 @@ module.exports.toLatLon = function (easting, northing, zoneNum, zoneLetter, nort
     zoneLetter = zoneLetter.toUpperCase();
     if (!ZONE_LETTERS_CONVERSION[zoneLetter]) {
       throw RangeError('zone letter out of range (must be between C and X)')
-      northern = ZONE_LETTERS_CONVERSION[zoneLetter]
     }
+    northern = ZONE_LETTERS_CONVERSION[zoneLetter]
   }
 
   var x = easting - 500000
