@@ -1,3 +1,5 @@
+'use strict'
+
 var K0 = 0.9996
 
 var E = 0.00669438
@@ -35,7 +37,7 @@ var ZONE_LETTERS = [
   'J', 'H', 'G', 'F', 'E', 'D', 'C'
 ]
 
-module.exports.toLatLon = function (easting, northing, zoneNum, zoneLetter, northern) {
+export function toLatLon(easting, northing, zoneNum, zoneLetter, northern) {
   zoneLetter = zoneLetter || ''
   northern = !!northern
   if (!zoneLetter && !northern) {
@@ -114,7 +116,7 @@ module.exports.toLatLon = function (easting, northing, zoneNum, zoneLetter, nort
   }
 }
 
-module.exports.fromLatLon = function (latitude, longitude, zoneNum) {
+export function fromLatLon(latitude, longitude, zoneNum) {
   if (latitude > 84 || latitude < -80) {
     throw new RangeError('latitude out of range (must be between 80 deg S and 84 deg N)')
   }

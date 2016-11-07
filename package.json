@@ -3,8 +3,10 @@
   "version": "1.0.1",
   "description": "Bidirectional UTM-WGS84 converter",
   "main": "index.js",
+  "jsnext:main": "index.es.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "rollup -o index.js -f cjs index.es.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/timothygu/utm/issues"
   },
-  "homepage": "https://github.com/timothygu/utm#readme"
+  "homepage": "https://github.com/timothygu/utm#readme",
+  "devDependencies": {
+    "rollup": "^0.36.3"
+  }
 }
