@@ -3,6 +3,7 @@
 Bidirectional UTM-WGS84 converter for JavaScript.
 
 [![npm version](https://img.shields.io/npm/v/utm.svg)](https://www.npmjs.org/package/utm)
+[![Travis](https://img.shields.io/travis/TimothyGu/utm.svg)](https://travis-ci.org/TimothyGu/utm)
 
 Translated directly from [Tobias Bieniek's implementation in Python](https://github.com/Turbo87/utm).
 
