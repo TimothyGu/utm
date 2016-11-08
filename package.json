@@ -5,7 +5,7 @@
   "main": "index.js",
   "jsnext:main": "index.es.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run prepublish && node test.js",
     "prepublish": "rollup -o index.js -f cjs index.es.js"
   },
   "repository": {
@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/timothygu/utm#readme",
   "devDependencies": {
-    "rollup": "^0.36.3"
+    "chai": "^3.5.0",
+    "rollup": "^0.36.3",
+    "testit": "^2.1.2"
   }
 }
