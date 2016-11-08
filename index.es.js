@@ -28,18 +28,22 @@ var R = 6378137;
 
 var ZONE_LETTERS = 'CDEFGHJKLMNPQRSTUVWXX';
 
-export function toLatLon(easting, northing, zoneNum, zoneLetter, northern) {
+export function toLatLon(easting, northing, zoneNum, zoneLetter, northern, strict) {
+  strict = strict !== undefined ? strict : true;
+
   if (!zoneLetter && northern === undefined) {
     throw new Error('either zoneLetter or northern needs to be set');
   } else if (zoneLetter && northern !== undefined) {
     throw new Error('set either zoneLetter or northern, but not both');
   }
 
-  if (easting < 100000 || 1000000 <= easting) {
-    throw new RangeError('easting out of range (must be between 100 000 m and 999 999 m)');
-  }
-  if (northing < 0 || northing > 10000000) {
-    throw new RangeError('northing out of range (must be between 0 m and 10 000 000 m)');
+  if (strict) {
+    if (easting < 100000 || 1000000 <= easting) {
+      throw new RangeError('easting out of range (must be between 100 000 m and 999 999 m)');
+    }
+    if (northing < 0 || northing > 10000000) {
+      throw new RangeError('northing out of range (must be between 0 m and 10 000 000 m)');
+    }
   }
   if (zoneNum < 1 || zoneNum > 60) {
     throw new RangeError('zone number out of range (must be between 1 and 60)');

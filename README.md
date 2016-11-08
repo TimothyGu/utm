@@ -13,10 +13,11 @@ Translated directly from [Tobias Bieniek's implementation in Python](https://git
 var utm = require('utm')
 ```
 
-### `utm.toLatLon(easting, northing, zoneNum, zoneLetter, northern)`
+### `utm.toLatLon(easting, northing, zoneNum, zoneLetter, northern, strict = true)`
 
 Convert from UTM-WGS84 to latitude/longitude coordinates. One and only one of
-`zoneLetter` and `northern` must be specified.
+`zoneLetter` and `northern` must be specified. `strict` option specifies
+whether easting and northing are checked against their respective ranges.
 
 Returns `{ latitude, longitude }`.
 
