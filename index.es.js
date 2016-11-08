@@ -26,23 +26,12 @@ var P5 = 1097 / 512 * _E4;
 
 var R = 6378137;
 
-var ZONE_LETTERS_CONVERSION = {
-  '':  84, X:  72, W:  64, V:  56, U:  48, T:  40, S:  32,
-  R :  24, Q:  16, P:   8, N:   0, M:  -8, L: -16, K: -24,
-  J : -32, H: -40, G: -48, F: -56, E: -64, D: -72, C: -80
-};
-var ZONE_LETTERS = [
-  '',  'X', 'W', 'V', 'U', 'T', 'S',
-  'R', 'Q', 'P', 'N', 'M', 'L', 'K',
-  'J', 'H', 'G', 'F', 'E', 'D', 'C'
-];
+var ZONE_LETTERS = 'CDEFGHJKLMNPQRSTUVWXX';
 
 export function toLatLon(easting, northing, zoneNum, zoneLetter, northern) {
-  zoneLetter = zoneLetter || '';
-  northern = !!northern;
-  if (!zoneLetter && !northern) {
+  if (!zoneLetter && northern === undefined) {
     throw new Error('either zoneLetter or northern needs to be set');
-  } else if (zoneLetter && northern) {
+  } else if (zoneLetter && northern !== undefined) {
     throw new Error('set either zoneLetter or northern, but not both');
   }
 
@@ -57,10 +46,10 @@ export function toLatLon(easting, northing, zoneNum, zoneLetter, northern) {
   }
   if (zoneLetter) {
     zoneLetter = zoneLetter.toUpperCase();
-    if (!ZONE_LETTERS_CONVERSION[zoneLetter]) {
+    if (zoneLetter.length !== 1 || ZONE_LETTERS.indexOf(zoneLetter) === -1) {
       throw new RangeError('zone letter out of range (must be between C and X)');
     }
-    northern = ZONE_LETTERS_CONVERSION[zoneLetter];
+    northern = zoneLetter >= 'N';
   }
 
   var x = easting - 500000;
@@ -116,7 +105,7 @@ export function toLatLon(easting, northing, zoneNum, zoneLetter, northern) {
   };
 }
 
-export function fromLatLon(latitude, longitude, zoneNum) {
+export function fromLatLon(latitude, longitude, forceZoneNum) {
   if (latitude > 84 || latitude < -80) {
     throw new RangeError('latitude out of range (must be between 80 deg S and 84 deg N)');
   }
@@ -132,8 +121,12 @@ export function fromLatLon(latitude, longitude, zoneNum) {
   var latTan2 = Math.pow(latTan, 2);
   var latTan4 = Math.pow(latTan, 4);
 
-  if (zoneNum === undefined) {
+  var zoneNum;
+
+  if (forceZoneNum === undefined) {
     zoneNum = latLonToZoneNumber(latitude, longitude);
+  } else {
+    zoneNum = forceZoneNum;
   }
 
   var zoneLetter = latitudeToZoneLetter(latitude);
@@ -173,9 +166,10 @@ export function fromLatLon(latitude, longitude, zoneNum) {
 }
 
 function latitudeToZoneLetter (latitude) {
-  for (var i = 0; i < ZONE_LETTERS.length; i++) {
-    var letter = ZONE_LETTERS[i];
-    if (latitude >= ZONE_LETTERS_CONVERSION[letter]) return letter;
+  if (-80 <= latitude && latitude <= 84) {
+    return ZONE_LETTERS[(latitude + 80) >>> 3];
+  } else {
+    return null;
   }
 }
 
