@@ -3,10 +3,11 @@
   "version": "1.1.0",
   "description": "Bidirectional UTM-WGS84 converter",
   "main": "index.js",
+  "module": "index.es.js",
   "jsnext:main": "index.es.js",
   "scripts": {
-    "test": "npm run prepublish && node test.js",
-    "prepublish": "rollup -o index.js -f cjs index.es.js"
+    "test": "npm run build && node test.js",
+    "build": "rollup -o index.js -f cjs index.es.js"
   },
   "repository": {
     "type": "git",
@@ -23,8 +24,8 @@
   },
   "homepage": "https://github.com/timothygu/utm#readme",
   "devDependencies": {
-    "chai": "^3.5.0",
-    "rollup": "^0.36.3",
+    "chai": "^4.0.2",
+    "rollup": "^0.43.0",
     "testit": "^2.1.2"
   }
 }
