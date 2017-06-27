@@ -1,5 +1,9 @@
 # Change log
 
+## [1.1.1] - 2017-06-27
+### Fixed
+- Fix UTM zone number longitude boundaries (fixes [Turbo87/utm#19])
+
 ## [1.1.0] - 2016-11-07
 ### Added
 - An option to disable range checking of easting and northing
@@ -15,8 +19,10 @@
 ### Added
 - Initial release
 
+[1.1.1]: https://github.com/TimothyGu/utm/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/TimothyGu/utm/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/TimothyGu/utm/compare/v1.0.0...v1.0.1
+[Turbo87/utm#19]: https://github.com/Turbo87/utm/issues/19
 [#3]: https://github.com/TimothyGu/utm/issues/3
 [#1]: https://github.com/TimothyGu/utm/issues/1
 [@danielsiwiec]: https://github.com/danielsiwiec
