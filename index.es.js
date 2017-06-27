@@ -181,10 +181,10 @@ function latLonToZoneNumber(latitude, longitude) {
   if (56 <= latitude && latitude < 64 && 3 <= longitude && longitude < 12) return 32;
 
   if (72 <= latitude && latitude <= 84 && longitude >= 0) {
-    if (longitude <=  9) return 31;
-    if (longitude <= 21) return 33;
-    if (longitude <= 33) return 35;
-    if (longitude <= 42) return 37;
+    if (longitude <  9) return 31;
+    if (longitude < 21) return 33;
+    if (longitude < 33) return 35;
+    if (longitude < 42) return 37;
   }
 
   return Math.floor((longitude + 180) / 6) + 1;

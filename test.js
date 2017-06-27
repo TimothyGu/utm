@@ -207,6 +207,23 @@ testit('special cases', () => {
       expect(results.zoneLetter).to.equal(zoneLetter.toUpperCase());
     }
   });
+
+  testit('right boundaries', () => {
+    for (const [lat, lon, zoneNum] of [
+      [40, 0, 31],
+      [40, 5.999999, 31],
+      [40, 6, 32],
+
+      [72, 0, 31],
+      [72, 5.999999, 31],
+      [72, 6, 31],
+      [72, 8.999999, 31],
+      [72, 9, 33]
+    ]) {
+      const results = fromLatLon(lat, lon);
+      expect(results.zoneNum).to.equal(zoneNum);
+    }
+  });
 });
 
 function* range(start, stop, step = 1) {
