@@ -169,15 +169,15 @@ export function fromLatLon(latitude, longitude, forceZoneNum) {
   };
 }
 
-function latitudeToZoneLetter (latitude) {
+function latitudeToZoneLetter(latitude) {
   if (-80 <= latitude && latitude <= 84) {
-    return ZONE_LETTERS[(latitude + 80) >>> 3];
+    return ZONE_LETTERS[Math.floor((latitude + 80) / 8)];
   } else {
     return null;
   }
 }
 
-function latLonToZoneNumber (latitude, longitude) {
+function latLonToZoneNumber(latitude, longitude) {
   if (56 <= latitude && latitude < 64 && 3 <= longitude && longitude < 12) return 32;
 
   if (72 <= latitude && latitude <= 84 && longitude >= 0) {
@@ -187,17 +187,17 @@ function latLonToZoneNumber (latitude, longitude) {
     if (longitude <= 42) return 37;
   }
 
-  return ((longitude + 180) / 6 | 0) + 1;
+  return Math.floor((longitude + 180) / 6) + 1;
 }
 
-function zoneNumberToCentralLongitude (zoneNum) {
+function zoneNumberToCentralLongitude(zoneNum) {
   return (zoneNum - 1) * 6 - 180 + 3;
 }
 
-function toDegrees (rad) {
+function toDegrees(rad) {
   return rad / Math.PI * 180;
 }
 
-function toRadians (deg) {
+function toRadians(deg) {
   return deg * Math.PI / 180;
 }
