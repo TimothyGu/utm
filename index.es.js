@@ -109,7 +109,7 @@ export function toLatLon(easting, northing, zoneNum, zoneLetter, northern, stric
   };
 }
 
-export function fromLatLon(latitude, longitude, forceZoneNum) {
+export function fromLatLon(latitude, longitude, forceZoneNum, forceZoneLetter) {
   if (latitude > 84 || latitude < -80) {
     throw new RangeError('latitude out of range (must be between 80 deg S and 84 deg N)');
   }
@@ -132,8 +132,14 @@ export function fromLatLon(latitude, longitude, forceZoneNum) {
   } else {
     zoneNum = forceZoneNum;
   }
-
+  
+  var zoneLetter;
+  
+  if (forceZoneLetter === undefined) {
   var zoneLetter = latitudeToZoneLetter(latitude);
+  }else{
+    zoneLetter = forceZoneLetter;
+  }
 
   var lonRad = toRadians(longitude);
   var centralLon = zoneNumberToCentralLongitude(zoneNum);
