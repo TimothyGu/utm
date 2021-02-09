@@ -85,7 +85,7 @@ export function toLatLon(easting, northing, zoneNum, zoneLetter, northern, stric
   var n = R / epSinSqrt;
   var r = (1 - E) / epSin;
 
-  var c = _E * pCos * pCos;
+  var c = E_P2 * pCos * pCos;
   var c2 = c * c;
 
   var d = x / (n * K0);
