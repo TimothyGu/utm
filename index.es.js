@@ -85,7 +85,7 @@ export function toLatLon(easting, northing, zoneNum, zoneLetter, northern, stric
   var n = R / epSinSqrt;
   var r = (1 - E) / epSin;
 
-  var c = _E * pCos * pCos;
+  var c = E_P2 * pCos * pCos;
   var c2 = c * c;
 
   var d = x / (n * K0);
@@ -105,7 +105,7 @@ export function toLatLon(easting, northing, zoneNum, zoneLetter, northern, stric
 
   return {
     latitude: toDegrees(latitude),
-    longitude: toDegrees(longitude) + zoneNumberToCentralLongitude(zoneNum)
+    longitude: toDegrees(modAngle(longitude) + toRadians(zoneNumberToCentralLongitude(zoneNum)))
   };
 }
 
@@ -142,7 +142,7 @@ export function fromLatLon(latitude, longitude, forceZoneNum) {
   var n = R / Math.sqrt(1 - E * latSin * latSin);
   var c = E_P2 * latCos * latCos;
 
-  var a = latCos * (lonRad - centralLonRad);
+  var a = latCos * modAngle(lonRad - centralLonRad);
   var a2 = Math.pow(a, 2);
   var a3 = Math.pow(a, 3);
   var a4 = Math.pow(a, 4);
@@ -200,4 +200,8 @@ function toDegrees(rad) {
 
 function toRadians(deg) {
   return deg * Math.PI / 180;
+}
+
+function modAngle(value) {
+  return (value + Math.PI) % (2 * Math.PI) - Math.PI;
 }
